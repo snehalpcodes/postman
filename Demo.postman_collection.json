@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "ab4e09e7-1994-4c57-b287-3d030ebd18ad",
+		"name": "Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33522736"
+	},
+	"item": [
+		{
+			"name": "get Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resBody=pm.response.json();\r",
+							"var id=resBody[1].id;\r",
+							"var key=resBody[1].key;\r",
+							"pm.collectionVariables.set('projectId',id);\r",
+							"pm.collectionVariables.set(\"variable_key\",key);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/project",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"project"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get account id",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/user?accountId={{accountId}}",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"user"
+					],
+					"query": [
+						{
+							"key": "accountId",
+							"value": "{{accountId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IssueType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resBody=pm.response.json();\r",
+							"var issueTypeId=resBody[0].id;\r",
+							"pm.collectionVariables.set('issueTypeId',issueTypeId);\r",
+							"pm.collectionVariables.get(\"issueTypeId\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/issuetype/project?projectId={{projectId}}",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issuetype",
+						"project"
+					],
+					"query": [
+						{
+							"key": "projectId",
+							"value": "{{projectId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resBody=pm.response.json();\r",
+							"var issueId=resBody.id;\r",
+							"pm.collectionVariables.set('issueId',issueId);\r",
+							"pm.collectionVariables.get(\"issueId\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"issuetype\": {\r\n            \"id\": \"{{issueTypeId}}\"\r\n        },\r\n        \"project\": {\r\n            \"id\": \"{{projectId}}\"\r\n        },\r\n        \"reporter\": {\r\n            \"id\": \"{{accountId}}\"\r\n        },\r\n        \"summary\": \"First task summary with API \"\r\n    },\r\n    \"update\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/issue",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assignee",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/user/assignable/multiProjectSearch?projectKeys={{variable_key}}",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"user",
+						"assignable",
+						"multiProjectSearch"
+					],
+					"query": [
+						{
+							"key": "projectKeys",
+							"value": "{{variable_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get issue",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/issue/{{issueId}}",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{issueId}}"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{email}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{jiratokenpass}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://coditas-team-rae3ijvn.atlassian.net/rest/api/3/issue/{{issueId}}",
+					"protocol": "https",
+					"host": [
+						"coditas-team-rae3ijvn",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"3",
+						"issue",
+						"{{issueId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {\r",
+					"    pm.response.to.have.status(200);\r",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jiratokenpass",
+			"value": "ATATT3xFfGF0RpyYx39M323as9Sn6CkhqReG7p9dBDmuSP73LyTVoB3TC9VSfbzwCzDu2AEJtFjCI6ODpMVOrHZ_oJzx-85hUiXB38tnrH7F_rnfPYXI5bhh405GBh5dAqgzLYWCQaJI4e2k6JZRbSWHceKrjKUGzYhwj7OGdDdtlyCqL-JJS40=DCA0E370"
+		},
+		{
+			"key": "baseurl",
+			"value": "https://coditas-team-rae3ijvn.atlassian.net"
+		},
+		{
+			"key": "email",
+			"value": "snehal.pimpalkar@coditas.com"
+		},
+		{
+			"key": "projectId",
+			"value": ""
+		},
+		{
+			"key": "issueId",
+			"value": ""
+		},
+		{
+			"key": "variable_key",
+			"value": ""
+		},
+		{
+			"key": "accountId",
+			"value": "6315a86bd8850343ef5947da"
+		},
+		{
+			"key": "issueTypeId",
+			"value": ""
+		}
+	]
+}
